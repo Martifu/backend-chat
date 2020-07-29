@@ -33,13 +33,7 @@ mongoose.set('useCreateIndex', true);
 // create a socket
 const server = http.Server(app);
 const io = socketio(server);
-io.use(
-  socketioJwt.authorize({
-    secret: process.env.SECRET,
-    handshake: true,
-    callback: false
-  })
-);
+
 
 // add swagger doc route
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -52,6 +46,7 @@ mongoose
   .then(() => {
     server.listen(PORT, () => {
       console.log(`Listening on ${PORT}`);
+      console.log('object');
     });
   })
   .catch(e => {

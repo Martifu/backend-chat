@@ -6,39 +6,47 @@ let connectedUsers = {};
 
 module.exports = io => {
   io.on('connection', async socket => {
-    const { token } = socket.handshake.query;
 
-    // get the data from jwt
-    const { id } = await jsonwebtoken.verify(token, process.env.SECRET);
+    //get the data from jwt
+     
 
-    socket.join(id); // use the user id as room
-    const user = await profile.info(id);
+    // use the user id as room
+    //const user = await profile.info(id);
 
-    io.to(id).emit('connected', { id: socket.id, connectedUsers }); // emit when the user is connected
+    /*io.to(email).emit('connected', { id: socket.id }); // emit when the user is connected
     socket.broadcast.emit('joined', {
-      id,
-      user
-    });
+      email,
+      email
+    });*/
 
-    connectedUsers[id] = user;
+    //connectedUsers[id] = user;
 
     socket.on('send', message => {
-      socket.broadcast.emit('new-message', {
-        from: { id, username: user.username },
-        message
+      console.log(message);
+      var room = message['sala'];
+      console.log(room);
+      io.sockets.to(room).emit('new-message', {
+        message 
       });
     });
 
-    socket.on('send-file', ({ type, url }) => {
+    socket.on('join', room => {
+      socket.join(room); // use the user id as room
+    });
+
+    socket.on('leave', room => {
+      socket.leave(room); // use the user id as room
+    });
+
+    /*socket.on('send-file', ({ type, url }) => {
       socket.broadcast.emit('new-file', {
         from: { id, username: user.username },
         file: { type, url }
       });
-    });
+    });*/
 
-    socket.on('disconnect', () => {
-      connectedUsers = _.omit(connectedUsers, id);
-      io.emit('disconnected', id);
-    });
+    /*socket.on('disconnect', () => {
+      io.emit('disconnected', email);
+    });*/
   });
-};
+}; 
