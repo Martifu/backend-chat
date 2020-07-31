@@ -15,7 +15,7 @@ module.exports = io => {
 
       socket.on('message', function(data){
         let index = users.findIndex(user => {
-          return user.userId === data.userId
+          return user.userId === data.id
         });
         console.log(data);
         users[index].socket.emit('message', data);
