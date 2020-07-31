@@ -1,4 +1,3 @@
-const bcrypt = require('bcrypt');
 const validator = require('validator');
 const _ = require('lodash');
 const User = require('../mongo/models/user');
@@ -10,7 +9,6 @@ const register = async data => {
 
   if (!validator.isEmail(email)) throw new Error('invalid email');
 
-  password = await bcrypt.hash(password, 10);
 
   const user = await User.create({
     username,
