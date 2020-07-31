@@ -4,12 +4,11 @@ const { Schema } = mongoose;
 
 const schema = Schema(
   {
-    id: {type:Number, required:true},
-    nombre:  {type:String, required:true},
-    foto:  {type:String, required:true},
-    mensaje: {type:String, required:true},
-    userId: {type:Number, required:true},
-    user: {type:Boolean, required:true},
+    to:  {type:String, required:true},
+    from:  {type:String, required:true},
+    mensaje:  {type:String, required:true},
+    fecha: {type:String, required:true},
+    idnegocio: {type:String, required:true},
   },
   { timestamps: true }
 );

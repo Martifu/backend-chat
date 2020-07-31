@@ -1,7 +1,8 @@
 const jsonwebtoken = require('jsonwebtoken');
 const _ = require('lodash');
-
+const negocio = require('./controllers/negocio')
 let users = [];
+
 
 module.exports = io => {
   io.on('connection', async socket => {
@@ -14,9 +15,9 @@ module.exports = io => {
 
       socket.on('message', function(data){
         let index = users.findIndex(user => {
-          return user.userId === data.userId
+          return user.userId === data.to
         });
-        console.log(data);
+        negocio.guardarMensaje(data)
         users[index].socket.emit('message', data);
       });
 

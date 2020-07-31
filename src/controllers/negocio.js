@@ -1,13 +1,25 @@
+const Chat = require('../mongo/models/chat')
 
 
-// eslint-disable-next-line no-unused-vars
-function inNegocio(idusuario) {
-  console.log(idusuario);
-  const object = {};
-  object[idusuario] = {}
+async function guardarMensaje(data) {
+  console.log(data);
+  try {
+    const {to, from, mensaje, fecha, idnegocio} = data;
 
+    const message = await Chat.create({
+      to,
+      from,
+      mensaje,
+      fecha,
+      idnegocio
+    });
+    console.log('este es el message',message);
+    return message;
+  } catch (error) {
+    console.log('este es el error', error.message);
+    return error;
+  }
 
-  return object;
 }
 
-module.exports  = {inNegocio}
+module.exports  = {guardarMensaje}
