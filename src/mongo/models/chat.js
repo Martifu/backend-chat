@@ -9,6 +9,7 @@ const schema = Schema(
     foto:  {type:String, required:true},
     mensaje: {type:String, required:true},
     userId: {type:Number, required:true},
+    user: {type:Boolean, required:true},
   },
   { timestamps: true }
 );
