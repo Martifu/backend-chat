@@ -1,6 +1,5 @@
 const jsonwebtoken = require('jsonwebtoken');
 const _ = require('lodash');
-const profile = require('./controllers/profile');
 
 let users = [];
 
