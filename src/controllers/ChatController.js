@@ -2,14 +2,15 @@ const Chat = require('../mongo/models/chat')
 
 const createMessage = async (request, response) => {
     try {
-        const {id, nombre, foto, mensaje, userId,} = request.body;
+        const {to, from, mensaje, idnegocio, foto, nombre} = request.body;
 
         const message = await Chat.create({
-            id,
-            nombre,
-            foto,
+            to,
+            from,
             mensaje,
-            userId,
+            idnegocio,
+            foto,
+            nombre
         });
         response.status(200).send({data:message})
     } catch (error) {
@@ -32,4 +33,4 @@ const getChat = async (request, response) => {
     }
 };
 
-module.exports = { };
+module.exports = { createMessage, };

@@ -16,18 +16,78 @@ module.exports = app => {
   app.get('/api/getchat',async (request, response) => {
     try {
 
-      //const {} = request.body;
-      const chat = await Chat.find({ });
-      response.status(200).send({status:'OK',data:chat})
+        const {user1, user2, idnegocio} = request.body;
+        const chat = await Chat.find({ $or: [{ to: user1 }, { to: user2 }, { from: user1 }, { from: user2 }],
+          idnegocio: idnegocio });
+        response.status(200).send({status:'OK',data:chat})
 
-  } catch (error) {
+    } catch (error) {
 
-      response.status(500).send({status:'ERROR', message:error.message})
-  }
+        response.status(500).send({status:'ERROR', message:error.message})
+    }
   });
 
-  app.post('/api/createMessage', async (request, response) => {
-    Negocio.guardarMensaje({request, response})
+  app.get('/api/getConversationCliente',async (request, response) => {
+    try {
+
+        const {user} = request.body;
+        const Converzaciones = await Chat.aggregate([{
+          $project:
+              {
+                to: 1,
+                from: 1,
+                idnegocio:1,
+                createdAt:1,
+                mensaje:1,
+                nombre:1,
+                foto:1,
+                result: { $or: [{ to: user }, { from: user }]}
+          },
+        }, {
+          $group: { 
+            "_id": "$idnegocio",
+            "last": { "$last": "$$ROOT" },
+          }, 
+        }]);
+        
+        response.status(200).send({status:'OK',data:Converzaciones})
+
+    } catch (error) {
+
+        response.status(500).send({status:'ERROR', message:error.message})
+    }
+  });
+
+  app.get('/api/getConversationNegocio',async (request, response) => {
+    try {
+
+        const {user, idnegocio} = request.body;
+        const Converzaciones = await Chat.aggregate([
+          { "$match": { "idnegocio": idnegocio } },
+          {
+            $project : {
+              idnegocio:1,
+              to:1,
+              from:1,
+              mensaje:1,
+              createdAt:1,
+              result: { $or: [{ to: user }, { from: user }]}
+            }
+          },
+          {
+          $group: { 
+            "_id": "$from",
+            "last": { "$last": "$$ROOT" },
+          }, 
+        }
+        ]);
+        
+        response.status(200).send({status:'OK',data:Converzaciones})
+
+    } catch (error) {
+
+        response.status(500).send({status:'ERROR', message:error.message})
+    }
   });
 
 };

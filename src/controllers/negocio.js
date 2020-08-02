@@ -4,14 +4,15 @@ const Chat = require('../mongo/models/chat')
 async function guardarMensaje(data) {
   console.log(data);
   try {
-    const {to, from, mensaje, fecha, idnegocio} = data;
+    const {to, from, mensaje, idnegocio, foto, nombre} = data;
 
     const message = await Chat.create({
       to,
       from,
       mensaje,
-      fecha,
-      idnegocio
+      idnegocio,
+      foto,
+      nombre
     });
     console.log('este es el message',message);
     return message;
