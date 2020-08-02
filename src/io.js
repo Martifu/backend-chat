@@ -1,49 +1,59 @@
 const jsonwebtoken = require('jsonwebtoken');
 const _ = require('lodash');
-const profile = require('./controllers/profile');
-
+const negocio = require('./controllers/negocio')
 let users = [];
+
 
 module.exports = io => {
   io.on('connection', async socket => {
 
       console.log('a user connected');
-      socket.on('disconnect', function(data) {
-        console.log('user disconnected');
-        users.splice(data, 1);
-      });
+
+      
 
       socket.on('message', function(data){
         let index = users.findIndex(user => {
-          return user.userId === data.id
+          return user.userId === data.to
         });
-        console.log(data);
+        negocio.guardarMensaje(data)
         users[index].socket.emit('message', data);
       });
 
       socket.on('online', function(userId){
-        if (users.length > 0) {
-          if (users[0]['userId'] == userId){
-            console.log('Ya se encontro adentro');
-          } else {
-            users.push({
-              socket,
-              userId
-            })
-            console.log(users)
-          }
-        } else {
+        var encontrado = null;
+        encontrado = users.find(element => element.userId == userId);
+        console.log(encontrado);
+        if (encontrado == undefined) {
           users.push({
             socket,
             userId
           })
           console.log(users)
+        } else {
+          console.log('Ya existe ese usuario');
+          var new_element =users.find(element => element.userId == userId);
+          users.pop(new_element);
+          console.log(users);
+          users.push({
+            socket,
+            userId
+          })
+          console.log(users);
         }
+      });
 
+      socket.on('salir', function(data) {
+        console.log('user disconnected');
+        users.splice(data, 1);
+        console.log(users);
+      });
+
+      socket.on('disconnect', () => {
+        io.emit('disconnected');
       });
     });
 
-    /*socket.on('disconnect', () => {
-      io.emit('disconnected', email);
-    });*/
+    
+
+    
 }; 
