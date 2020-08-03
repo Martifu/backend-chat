@@ -16,9 +16,8 @@ module.exports = app => {
   app.get('/api/getchat',async (request, response) => {
     try {
 
-        const {user1, user2, idnegocio} = request.body;
-        const chat = await Chat.find({ $or: [{ to: user1 }, { to: user2 }, { from: user1 }, { from: user2 }],
-          idnegocio: idnegocio });
+        const {conversacion, idnegocio} = request.body;
+        const chat = await Chat.find({conversacion:conversacion, idnegocio: idnegocio });
         response.status(200).send({status:'OK',data:chat})
 
     } catch (error) {
