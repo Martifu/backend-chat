@@ -13,12 +13,11 @@ module.exports = app => {
     res.send({data:"Chat is lisening"});
   });
 
-  app.post('/api/getchat',async (request, response) => {
+  app.get('/api/getchat',async (request, response) => {
     try {
 
-        const {admin, user, idnegocio} = request.body;
-        const chat = await Chat.find({ $or: [{ to: admin }, { to: user }, { from: admin }, { from: user }],
-          idnegocio: idnegocio });
+        const {conversacion, idnegocio} = request.body;
+        const chat = await Chat.find({conversacion:conversacion, idnegocio: idnegocio });
         response.status(200).send({status:'OK',data:chat})
 
     } catch (error) {
@@ -61,7 +60,7 @@ module.exports = app => {
   app.get('/api/getConversationNegocio',async (request, response) => {
     try {
 
-        const {user, idnegocio} = request.body;
+        const {idnegocio} = request.body;
         const Converzaciones = await Chat.aggregate([
           { "$match": { "idnegocio": idnegocio } },
           {
@@ -71,7 +70,7 @@ module.exports = app => {
               from:1,
               mensaje:1,
               createdAt:1,
-              result: { $or: [{ to: user }, { from: user }]}
+              result: { $or: [{ to: idnegocio }, { from: idnegocio }]}
             }
           },
           {

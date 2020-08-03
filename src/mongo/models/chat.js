@@ -4,6 +4,7 @@ const { Schema } = mongoose;
 
 const schema = Schema(
   {
+    conversacion: {type:String, required:true},
     to:  {type:String, required:true},
     from:  {type:String, required:true},
     mensaje:  {type:String, required:true},
