@@ -61,7 +61,7 @@ module.exports = app => {
   app.get('/api/getConversationNegocio',async (request, response) => {
     try {
 
-        const {user, idnegocio} = request.body;
+        const {idnegocio} = request.body;
         const Converzaciones = await Chat.aggregate([
           { "$match": { "idnegocio": idnegocio } },
           {
@@ -71,7 +71,7 @@ module.exports = app => {
               from:1,
               mensaje:1,
               createdAt:1,
-              result: { $or: [{ to: user }, { from: user }]}
+              result: { $or: [{ to: idnegocio }, { from: idnegocio }]}
             }
           },
           {
