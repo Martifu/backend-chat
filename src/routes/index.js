@@ -13,11 +13,11 @@ module.exports = app => {
     res.send({data:"Chat is lisening"});
   });
 
-  app.get('/api/getchat',async (request, response) => {
+  app.post('/api/getchat',async (request, response) => {
     try {
 
-        const {user1, user2, idnegocio} = request.body;
-        const chat = await Chat.find({ $or: [{ to: user1 }, { to: user2 }, { from: user1 }, { from: user2 }],
+        const {admin, user, idnegocio} = request.body;
+        const chat = await Chat.find({ $or: [{ to: admin }, { to: user }, { from: admin }, { from: user }],
           idnegocio: idnegocio });
         response.status(200).send({status:'OK',data:chat})
 

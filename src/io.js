@@ -50,6 +50,8 @@ module.exports = io => {
 
       socket.on('disconnect', () => {
         io.emit('disconnected');
+        console.log("desconecto");
+        users.splice(socket, 1);
       });
     });
 
