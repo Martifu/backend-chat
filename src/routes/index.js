@@ -89,4 +89,12 @@ module.exports = app => {
     }
   });
 
+  app.post('/api/guardarReservacion',async (request, response) => {
+
+    const reservacion =  Negocio.guardarReservacion(request);
+
+    response.status(200).send({status:'OK',data:reservacion})
+
+  });
+
 };
