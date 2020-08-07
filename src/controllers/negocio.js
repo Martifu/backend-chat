@@ -6,9 +6,10 @@ const {reservaciones} = require('../database/models/Reservacion')
 async function guardarMensaje(data) {
   console.log(data);
   try {
-    const {to, from, mensaje, idnegocio, foto, nombre} = data;
+    const {conversacion, to, from, mensaje, idnegocio, foto, nombre} = data;
 
     const message = await Chat.create({
+      conversacion,
       to,
       from,
       mensaje,
