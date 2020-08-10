@@ -13,7 +13,7 @@ module.exports = app => {
     res.send({data:"Chat is lisening"});
   });
 
-  app.get('/api/getchat',async (request, response) => {
+  app.post('/api/getchat',async (request, response) => {
     try {
 
         const {conversacion, idnegocio} = request.body;
@@ -57,31 +57,32 @@ module.exports = app => {
     }
   });
 
-  app.get('/api/getConversationNegocio',async (request, response) => {
+  app.post('/api/getConversationNegocio',async (request, response) => {
     try {
 
         const {idnegocio} = request.body;
-        const Converzaciones = await Chat.aggregate([
+        const Conversaciones = await Chat.aggregate([
           { "$match": { "idnegocio": idnegocio } },
           {
             $project : {
               idnegocio:1,
               to:1,
               from:1,
+              nombre:1,
               mensaje:1,
+              conversacion:1,
               createdAt:1,
-              result: { $or: [{ to: idnegocio }, { from: idnegocio }]}
             }
           },
           {
           $group: { 
-            "_id": "$from",
+            "_id": "$conversacion",
             "last": { "$last": "$$ROOT" },
           }, 
         }
         ]);
         
-        response.status(200).send({status:'OK',data:Converzaciones})
+        response.status(200).send({status:'OK',data:Conversaciones})
 
     } catch (error) {
 
@@ -90,10 +91,13 @@ module.exports = app => {
   });
 
   app.post('/api/guardarReservacion',async (request, response) => {
+    try {
+      const reservacion =  Negocio.guardarReservacion(request);
+      response.status(200).send({status:'ok', data:reservacion})
+    } catch (error) {
+      response.status(400).send({status:'error', type:error.message, message:'Hubo un error'})
+    }
 
-    const reservacion =  Negocio.guardarReservacion(request);
-
-    response.status(200).send({status:'OK',data:reservacion})
 
   });
 

@@ -27,11 +27,10 @@ async function guardarMensaje(data) {
 }
 
 async function guardarReservacion(data) {
+  console.log(data);
+  const {id_usuario, id_negocio, dia, confirmacion, personas, zona} = data;
 
   try {
-
-    const {id_usuario, id_negocio, dia, confirmacion, personas, zona} = data.body;
-    
     const reservacion = await reservaciones.create({
         id_usuario:id_usuario, 
         id_negocio:id_negocio, 
@@ -40,9 +39,7 @@ async function guardarReservacion(data) {
         personas:personas, 
         zona:zona
     })
-    
     return reservacion;
-    
   }catch (error) {
     console.log('este es el error', error.message);
     return error.message;

@@ -6,11 +6,7 @@ let users = [];
 
 module.exports = io => {
   io.on('connection', async socket => {
-
       console.log('a user connected');
-
-      
-
       socket.on('message', function(data){
         let index = users.findIndex(user => {
           return user.userId === data.to
@@ -31,9 +27,8 @@ module.exports = io => {
           console.log(users)
         } else {
           console.log('Ya existe ese usuario');
-          var new_element =users.find(element => element.userId == userId);
+          var new_element = users.find(element => element.userId == userId);
           users.pop(new_element);
-          console.log(users);
           users.push({
             socket,
             userId
@@ -53,6 +48,15 @@ module.exports = io => {
         console.log("desconecto");
         users.splice(socket, 1);
       });
+
+      socket.on('reservacion', (data) =>{
+        console.log(data);
+        let index = users.findIndex(user => {
+          return user.userId === data.id_socket
+        });
+        negocio.guardarReservacion(data);
+        users[index].socket.emit('reservacion', data);
+      })
     });
 
     
