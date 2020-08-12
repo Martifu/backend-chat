@@ -28,14 +28,13 @@ async function guardarMensaje(data) {
 
 async function guardarReservacion(data) {
   console.log(data);
-  const {id_usuario, id_negocio, dia, confirmacion, personas, zona} = data;
+  const {id_usuario, id_negocio, dia, personas, zona} = data;
 
   try {
     const reservacion = await reservaciones.create({
         id_usuario:id_usuario, 
         id_negocio:id_negocio, 
-        dia:dia, 
-        confirmacion:confirmacion, 
+        dia:dia,
         personas:personas, 
         zona:zona
     })
