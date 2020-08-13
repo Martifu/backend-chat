@@ -1,13 +1,13 @@
-const { Sequelize, DataTypes, Model } = require('sequelize');
+const { DataTypes, Model } = require('sequelize');
 const { sequelize, test } = require('../mysql');
 
-class reservaciones extends Model {}
+class Reservacion extends Model {}
 
-reservaciones.init({
+Reservacion.init({
   id_usuario: {type: DataTypes.INTEGER}, 
   id_negocio: {type: DataTypes.INTEGER}, 
   dia: {type: DataTypes.DATE}, 
-  confirmacion: {type: DataTypes.STRING}, 
+  confirmacion: {type: DataTypes.STRING, defaultValue: "PENDIENTE"}, 
   personas: {type: DataTypes.INTEGER}, 
   zona: {type: DataTypes.STRING},
 
@@ -25,7 +25,7 @@ reservaciones.init({
 });
 
 // the defined model is the class itself
-console.log("Modelo Reresvaciones:" + reservaciones === sequelize.models.reservaciones); // true
-test()
+console.log("Modelo Reresvaciones:" + Reservacion === sequelize.models.reservaciones); // true
+//test()
 
-module.exports  = {reservaciones, sequelize}
+module.exports  = {Reservacion, sequelize}
