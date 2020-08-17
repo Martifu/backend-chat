@@ -20,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 app.use(cors());
+app.options('*', cors());
 app.set('view engine', 'ejs');
 
 // public files
