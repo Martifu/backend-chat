@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
-app.use(cors({origin: '*'}));
+app.use(cors());
 app.set('view engine', 'ejs');
 
 // public files
@@ -35,7 +35,7 @@ mongoose.set('useCreateIndex', true);
 
 // create a socket
 const server = http.Server(app);
-var io = require('socket.io')(server, { origins: '*:*'});
+const io = socketio(server);
 
 
 // add swagger doc route

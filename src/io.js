@@ -6,6 +6,7 @@ const users = [];
 
 module.exports = io => {
   io.on('connection', async socket => {
+      io.set('origins', '*');
       console.log('a user connected');
       socket.on('message', function(data){
         let usuario;
