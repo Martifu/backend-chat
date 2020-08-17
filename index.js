@@ -19,7 +19,24 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
-app.use(cors({origin: '*'}));
+app.use(function (req, res, next) {
+
+  // Website you wish to allow to connect
+  res.setHeader('Access-Control-Allow-Origin', '*');
+
+  // Request methods you wish to allow
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+  // Request headers you wish to allow
+  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+
+  // Set to true if you need the website to include cookies in the requests sent
+  // to the API (e.g. in case you use sessions)
+  res.setHeader('Access-Control-Allow-Credentials', true);
+
+  // Pass to next layer of middleware
+  next();
+});
 app.set('view engine', 'ejs');
 
 // public files
@@ -47,11 +64,7 @@ mongoose
     useNewUrlParser: true
   })
   .then(() => {
-<<<<<<< HEAD
-    server.listen(PORT,'0.0.0.0' ,() => {
-=======
     server.listen(PORT, '127.0.0.1' , () => {
->>>>>>> f5f51c4e2de406f1265ab8387e5484b6e900ef19
       console.log(`Listening on ${PORT}`);
       console.log('object');
     });
