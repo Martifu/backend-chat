@@ -19,11 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+app.use(cors({origin: '*'}));
 app.set('view engine', 'ejs');
 
 // public files
@@ -39,7 +35,7 @@ mongoose.set('useCreateIndex', true);
 
 // create a socket
 const server = http.Server(app);
-const io = socketio(server);
+const io = socketio(server, { origin:'*:*'});
 
 
 // add swagger doc route
@@ -53,7 +49,6 @@ mongoose
   .then(() => {
     server.listen(PORT, '127.0.0.1' , () => {
       console.log(`Listening on ${PORT}`);
-      console.log('object');
     });
   })
   .catch(e => {

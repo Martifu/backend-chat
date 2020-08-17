@@ -1,6 +1,6 @@
 const jsonwebtoken = require('jsonwebtoken');
-const _ = require('lodash');
 const negocio = require('./controllers/negocio')
+
 const users = [];
 
 

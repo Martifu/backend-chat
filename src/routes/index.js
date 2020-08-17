@@ -9,6 +9,7 @@ const Chat = require('../mongo/models/chat');
 const EXPIRES_IN = 60 * 60; // 1 hour
 
 module.exports = app => {
+
   app.get('/', (req, res) => {
     res.send({ data: 'Chat is lisening' });
   });
