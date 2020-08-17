@@ -1,6 +1,6 @@
 const Chat = require('../mongo/models/chat')
 
-const {reservaciones} = require('../database/models/Reservacion')
+const {Reservacion} = require('../database/models/Reservacion')
 
 
 async function guardarMensaje(data) {
@@ -27,15 +27,14 @@ async function guardarMensaje(data) {
 }
 
 async function guardarReservacion(data) {
-  console.log(data);
-  const {id_usuario, id_negocio, dia, confirmacion, personas, zona} = data;
+  
+  const {id_usuario, id_negocio, dia, personas, zona} = data.body;
 
   try {
-    const reservacion = await reservaciones.create({
+    const reservacion = await Reservacion.create({
         id_usuario:id_usuario, 
         id_negocio:id_negocio, 
-        dia:dia, 
-        confirmacion:confirmacion, 
+        dia:dia,
         personas:personas, 
         zona:zona
     })

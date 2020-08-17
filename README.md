@@ -1,5 +1,5 @@
 
-Node.js backend with express  for the  course `Experto en flutter`
+Node.js backend with express
 
 ## **Local deploy**
 
