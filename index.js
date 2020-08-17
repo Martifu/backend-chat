@@ -20,7 +20,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 app.use(cors());
-app.options('*', cors());
 app.set('view engine', 'ejs');
 
 // public files
@@ -35,8 +34,14 @@ const swaggerDocument = JSON.parse(
 mongoose.set('useCreateIndex', true);
 
 // create a socket
-const server = http.Server(app);
-const io = socketio(server);
+const server = require('http').Server(app);
+
+const io = socketio(server, {
+  log: true,
+  agent: false,
+  origins: '*:*',
+  transports: ['websocket', 'htmlfile', 'xhr-polling', 'jsonp-polling', 'polling']
+});
 
 
 // add swagger doc route

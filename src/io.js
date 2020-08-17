@@ -5,7 +5,6 @@ const users = [];
 
 
 module.exports = io => {
-  io.set('origins', 'http:127.0.0.1:4200');
   io.on('connection', async socket => {
       console.log('a user connected');
       socket.on('message', function(data){
