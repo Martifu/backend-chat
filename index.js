@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 const fs = require('fs');
 const cors = require('cors');
-const http = require('http');
 const socketio = require('socket.io');
 const socketioJwt = require('socketio-jwt');
 
@@ -34,15 +33,8 @@ const swaggerDocument = JSON.parse(
 mongoose.set('useCreateIndex', true);
 
 // create a socket
-const server = require('http').Server(app);
-
-const io = socketio(server, {
-  log: true,
-  agent: false,
-  origins: '*:*',
-  transports: ['websocket', 'htmlfile', 'xhr-polling', 'jsonp-polling', 'polling']
-});
-
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
 
 // add swagger doc route
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
