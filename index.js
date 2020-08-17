@@ -33,8 +33,8 @@ const swaggerDocument = JSON.parse(
 mongoose.set('useCreateIndex', true);
 
 // create a socket
-const http = require('http').Server(app);
-const io = require('socket.io')(http);
+var server = app.listen(3000);
+var io = require('socket.io').listen(server);
 
 // add swagger doc route
 app.use('/api/v1/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
