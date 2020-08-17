@@ -35,7 +35,7 @@ mongoose.set('useCreateIndex', true);
 
 // create a socket
 const server = http.Server(app);
-const io = socketio(server, { origin:'*:*'});
+var io = require('socket.io')(server, { origins: '*:*'});
 
 
 // add swagger doc route
