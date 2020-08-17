@@ -44,7 +44,7 @@ mongoose
     useNewUrlParser: true
   })
   .then(() => {
-    server.listen(PORT, () => {
+    server.listen(PORT, '127.0.0.1' , () => {
       console.log(`Listening on ${PORT}`);
       console.log('object');
     });
