@@ -8,6 +8,7 @@ const http = require('http');
 const socketio = require('socket.io');
 const socketioJwt = require('socketio-jwt');
 
+
 require('dotenv').config();
 
 process.env.TZ = 'America/Guayaquil'; // zona horaria de la app
@@ -18,12 +19,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({origin: '*'}));
 app.set('view engine', 'ejs');
 
 // public files
 app.use(express.static('public'));
 
+
+// use it before all route definitions
 const swaggerDocument = JSON.parse(
   fs.readFileSync(`${__dirname}/src/swagger.json`, 'utf8')
 );
