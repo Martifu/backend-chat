@@ -25,7 +25,7 @@
     "mysql2": "^2.1.0",
     "npm": "^6.10.3",
     "sequelize": "^6.3.4",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.4.0",
     "socketio-jwt": "^4.5.0",
     "swagger-ui-express": "^4.0.7",
     "validator": "^11.1.0"
